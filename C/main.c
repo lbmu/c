@@ -60,15 +60,22 @@ void searchAccount();
 
  void regis()
  {
-    *log;
+     // kasih FILE di depan
+    FILE *log;
     log=fopen("LOGIN.txt","a");
     struct login l;
 
     printf("Nama Depan: ");scanf ("%s",l.fname);
     printf("Nama Belakang: ");scanf (" %s",l.lname);
-    printf("Username: ") ;scanf ("%s",l.ussername);
-    printf("Password: ") ;scanf ("%s",l.pasword) ;
-    fwrite(&l,(l),1,log);
+
+    // ngga typo kan (ussername -> username)
+    printf("Username: ") ;scanf ("%s",l.username);
+
+    // sama (pasword -> password)
+    printf("Password: ") ;scanf ("%s",l.password) ;
+
+    // kasih sizeof di argumen kedua (l) -> sizeof(l)
+    fwrite(&l,sizeof(l),1,log);
 
     fclose(log);
 
@@ -114,7 +121,9 @@ void searchAccount();
 void menu()
 {
     char option;
-    while (option !=)
+
+    // kurang 6 (option !=) -> (option != 6)
+    while (option != 6)
     {
     system("CLS");
     printf("========Selamat Datang di Program Teller Bank========\n\n");
@@ -131,13 +140,16 @@ void menu()
         scanf(" %c", &option);
         switch(option)
         {
-          case 1: createAcount();
+            //typo nama prosedur Acount -> Account
+          case 1: createAccount();
                     break;
-          case 2; updateAcount();
+                    // typo (;) -> (:)
+          case 2: updateAccount();
                     break;
-          case 3: deleteAcount();
+          case 3: deleteAccount();
                     break;
-          case 4; searchAcount();
+                    // sama (;) -> (:)
+          case 4: searchAccount();
                     break;
           case 5: displayAllAccount();
                     break;
@@ -152,14 +164,16 @@ void menu()
 
 void createAccount()
 {
-    FILE * = fopen("accountInfo.bin", "ab+");
+    // kasih variable file (FILE *) -> (FILE *fileOne), sama +ab nya coba ganti ntar
+    FILE *fileOne = fopen("accountInfo.bin", "ab+");
 
     if (fileOne == NULL)
     {
         printf("\nError !\n");
     }
 
-    Account accountInformation;
+    // kurang struct (Account accountInformation;) -> (struct Account accountInformation;)
+    struct Account accountInformation;
 
     system("cls");
 
@@ -170,7 +184,9 @@ void createAccount()
     printf("\nMasukkan Nomor Kartu(5 digit) : ");
     gets(accountInformation.accountNumber);
     printf("\nMasukkan Tanggal lahir (dd/mm/yy): ");
-    gets(accountInformationDateOfBirth);
+
+    // kurang titik (.) (accountInformationDateOfBirth) -> (accountInformation.DateOfBirth)
+    gets(accountInformation.DateOfBirth);
     printf("\nMasukkan Alamat : ");
     gets(accountInformation.address);
     printf("\nMasukkan Nomor Hp : ");
@@ -178,18 +194,21 @@ void createAccount()
     printf("\nMasukkan Jumlah UANG : Rp ");
     scanf("%f", &accountInformation.accountBalance);
 
-    fwrite(accountInformation, sizeof(accountInformation), 1, fileOne);
+    // kurang ampersand (&)
+    fwrite(&accountInformation, sizeof(accountInformation), 1, fileOne);
     printf("\nAkun berhasil dibuat.....\n");
     system("PAUSE");
 
-    fclose();
+    // kurang variable file (fclose();) -> (fclose(fileOne);)
+    fclose(fileOne);
 }
 
 void displayAllAccount()
 {
     FILE *fileOne = fopen("accountInfo.bin", "b");
 
-    Account accountInformation, temp[sizeof(accountInformation)];
+    // kurang struct (Account accountInformation, temp[sizeof(accountInformation)];) -> (struct Account accountInformation, temp[sizeof(accountInformation)];)
+    struct Account accountInformation, temp[sizeof(accountInformation)];
 
     int choice, flag = 1;
     char searchAccountNumber[20], searchName[50];
@@ -217,20 +236,26 @@ void displayAllAccount()
         while (fread(&accountInformation, sizeof(accountInformation), 1, fileOne) == 1)
         {
             flag++;
-            temp[] = accountInformation;
+
+            // ini gatahu, coba temp[] nya isi j kalo salah, atau kasih + 1 juga, atau dua dua nya, atau - 1
+            temp[i] = accountInformation;
 
         }
         int n = flag;
         for (i = 1; i < n; i++)
         {
-            Account key = temp[i];
+
+            // kurang struct (Account key = temp[i];) -> (struct Account key = temp[i];)
+            struct Account key = temp[i];
             j = i - 1;
             while (j >= 0 && atoi(temp[i].accountNumber) > atoi(key.accountNumber))
             {
                 temp[j + 1] = temp[j];
                 j =  - 1;
             }
-            temp[j + 1] = key
+
+            // kurang end statement (;) (temp[j + 1] = key) -> (temp[j + 1] = key;)
+            temp[j + 1] = key;
         }
         for(i ; i < flag; i++)
         {
@@ -259,15 +284,20 @@ void displayAllAccount()
 
         }
         int n = flag;
-        Account temp2;
+
+        // kurang struct (Account temp2;) -> (struct Account temp2;)
+        struct Account temp2;
         for(i = 0; i < n; i++)
           for(j = i+1; j < n; j++)
           {
-               if(strcmp(temp[i].accountNama,temp[j].accountName)>0)
+              // typo (if(strcmp(temp[i].accountNama,temp[j].accountName)>0)) -> (if(strcmp(temp[i].accountName,temp[j].accountName)>0))
+               if(strcmp(temp[i].accountName,temp[j].accountName)>0)
                {
                   temp2 = temp[i];
-                  temp[j] = temp[x];
-                  temp[j] = temp100;
+                    // salah variabel (x) -> (i)
+                  temp[j] = temp[i];
+                  // sama (temp100) -> (temp2)
+                  temp[j] = temp2;
                }
           }
         for(i = 0; i < flag; i++)
@@ -301,11 +331,13 @@ void updateAccount()
     FILE *fileOne = fopen("accountInfo.bin", "rb");
     FILE *temp = fopen("temp.bin", "wb");
 
-    Account accountInformation, tempInformation;
+    // kurang struct (Account accountInformation, tempInformation;) -> (struct Account accountInformation, tempInformation;)
+    struct Account accountInformation, tempInformation;
 
     int choice, flag = 0;
 
-    if (fileOne == NAILL OR temp == NALL)
+    //typo NAILL / NALL -> NULL, OR -> ||
+    if (fileOne == NULL || temp == NULL)
     {
         printf("\nError !\n");
     }
@@ -331,11 +363,14 @@ void updateAccount()
             if (choice == 1)
             {
                 printf("\nNama Baru Akun: ");
-                getstring();
-                gets(tempInformation.accountName);
+
+                // yang bawah comment dulu, coba pakai fgets di line 343
+                //getstring();
+                fgets(tempInformation.accountName, 40, stdin);
                 strcmp(accountInformation.accountName, tempInformation.accountName);
 
-                fwrites(&accountInformation, sizeof(accountInformation), 1, temp);
+                // bukan plural fwrites -> fwrite
+                fwrite(&accountInformation, sizeof(accountInformation), 1, temp);
                 printf("\nPerbaharui Akun Berhasil!\n\n");
             }
             else if (choice == 2)
@@ -345,7 +380,8 @@ void updateAccount()
                 gets(tempInformation.DateOfBirth);
                 strcpy(accountInformation.DateOfBirth, tempInformation.DateOfBirth);
 
-                fwrites(&accountInformation, sizeof(accountInformation), 1, temp);
+                // syntax bukan plural fwrites -> fwrite
+                fwrite(&accountInformation, sizeof(accountInformation), 1, temp);
                 printf("\nPerbaharui Akun Berhasil!\n\n");
             }
             else if (choice == 3)
@@ -399,7 +435,8 @@ void deleteAccount()
     FILE *fileOne = fopen("accountInfo.bin", "rb");
     FILE *temp = fopen("temp.bin", "wb");
 
-    Account accountInformation, tempInformation;
+    // kurang struct
+    struct Account accountInformation, tempInformation;
 
     int choice, flag = 0;
 
@@ -422,7 +459,9 @@ void deleteAccount()
             flag++;
             printf("\nKonfirmasi Hapus Akun!\n\n1.Ya\n2.Kembali\nMasukkan pilihan (1/2): ");
             scanf("%d", &choice);
-            if (pilihlah_coy == 1)
+
+            // salah variable (pilihlah_coy) -> choice
+            if (choice == 1)
             {
                 printf("\nAkun Berhasil Dihapus!\n\n");
             }
@@ -461,7 +500,8 @@ void searchAccount()
 {
     FILE *fileOne = fopen("accountInfo.bin", "rb");
 
-    Account accountInformation;
+    // kurang struct
+    struct Account accountInformation;
 
     int choice, flag = 0;
     char searchAccountNumber[20], searchName[50];
@@ -510,13 +550,17 @@ void searchAccount()
     {
         system("cls");
         printf("\====== Cari Informasi Akun ======\n");
-
         printf("\nMasukkan Nama Akun : ");
-        getchr();
-        gets(searchName);
-        while (fbread(&accountInformation, sizeof(accountInformation), 1, fileOne) == 1)
+
+        // line 529 coba comment dulu, line 530 pakai fgets
+        //getchr();
+        fgets(searchName, 40, stdin);
+
+        // kelebihan b fbread -> fread
+        while (fread(&accountInformation, sizeof(accountInformation), 1, fileOne) == 1)
         {
-            if (stricmp(accountInformation.accountName, searchName) === 0)
+            // sama dengan nya kelebihan === -> ==
+            if (stricmp(accountInformation.accountName, searchName) == 0)
             {
                 flag++;
                 printf("\nNama Akun: %s\n", accountInformation.accountName);
